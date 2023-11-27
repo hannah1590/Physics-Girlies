@@ -8,6 +8,8 @@ public abstract class PhysicsCollider : MonoBehaviour
     {
         Sphere,
         Plane,
+        AABB,
+        OBB,
 
         Count
     }

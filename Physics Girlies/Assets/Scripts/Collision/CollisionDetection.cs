@@ -62,9 +62,21 @@ public static class CollisionDetection
         collisionFns[(int)Shape.Sphere, (int)Shape.Sphere] = TestSphereSphere;
         AddCollisionFns(Shape.Sphere, Shape.Plane, TestSpherePlane);
 
+        // TODO: Add additional collider functions here
+        collisionFns[(int)Shape.Sphere, (int)Shape.AABB] = TestSphereAABB;
+        AddCollisionFns(Shape.Sphere, Shape.AABB, TestSphereAABB);
+
+        collisionFns[(int)Shape.Sphere, (int)Shape.OBB] = TestSphereOBB;
+        AddCollisionFns(Shape.Sphere, Shape.OBB, TestSphereOBB);
 
         // Static colliders do nothing
         NormalAndPenCalculation nop = (PhysicsCollider _, PhysicsCollider _, out Vector3 n, out float p) => { n = Vector3.zero; p = -1; };
+        AddCollisionFns(Shape.OBB, Shape.Plane, nop);
+        AddCollisionFns(Shape.AABB, Shape.Plane, nop);
+        AddCollisionFns(Shape.AABB, Shape.OBB, nop);
+        AddCollisionFns(Shape.Plane, Shape.Plane, nop);
+        AddCollisionFns(Shape.OBB, Shape.OBB, nop);
+        AddCollisionFns(Shape.AABB, Shape.AABB, nop);
     }
 
     static void AddCollisionFns(Shape s1, Shape s2, NormalAndPenCalculation fn)
@@ -102,6 +114,54 @@ public static class CollisionDetection
         penetration = s.Radius - dist;
         normal = offset >= 0 ? p.Normal : -p.Normal;
     }
+
+    // TODO: YOUR CODE HERE
+    // Add new functions for sphere-AABB and sphere-OBB tests.
+    public static void TestSphereAABB(PhysicsCollider s1, PhysicsCollider s2, out Vector3 normal, out float penetration)
+    {
+        Sphere s = s1 as Sphere;
+        AABB aabb = s2 as AABB;
+
+        Vector3 halfWidth = aabb.transform.localScale / 2;
+        aabb.min = aabb.transform.position - halfWidth;
+        aabb.max = aabb.transform.position + halfWidth;
+
+        Vector3 closestPoint = Vector3.Max(s.Center, aabb.min);
+        closestPoint = Vector3.Min(closestPoint, aabb.max);
+
+        float dist = (s.Center - closestPoint).magnitude;
+
+        penetration = s.Radius - dist;
+        normal = dist == 0 ? Vector3.zero : (s.Center - closestPoint);
+        normal = normal.normalized;
+    }
+
+    public static void TestSphereOBB(PhysicsCollider s1, PhysicsCollider s2, out Vector3 normal, out float penetration)
+    {
+        Sphere s = s1 as Sphere;
+        OBB oBB = s2 as OBB;
+
+        Matrix4x4 transformation = oBB.transform.worldToLocalMatrix;
+
+        Vector3 halfWidths = Vector3.one / 2;
+        Vector4 v = new Vector4(s.Center.x, s.Center.y, s.Center.z, 1);
+
+        var point = transformation * v;
+        var min = Vector3.Min(point, halfWidths);
+        Vector4 closestPoint = new Vector4(Vector3.Max(min, -halfWidths).x, Vector3.Max(min, -halfWidths).y, Vector3.Max(min, -halfWidths).z, 1);
+
+
+        transformation = transformation.inverse;
+        closestPoint = transformation * closestPoint;
+        Vector3 closePoint = new Vector3(closestPoint.x, closestPoint.y, closestPoint.z);
+
+
+        float dist = (s.Center - closePoint).magnitude;
+
+        penetration = s.Radius - dist;
+        normal = (s.Center - closePoint).normalized;
+    }
+
     public static CollisionInfo GetCollisionInfo(PhysicsCollider s1, PhysicsCollider s2)
     {
         CollisionInfo info = new CollisionInfo();
