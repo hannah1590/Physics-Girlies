@@ -8,8 +8,6 @@ public class Wave : MonoBehaviour
     [SerializeField] private float speed = 2.0f;
     [SerializeField] private float amplitude = 0.25f;
     [SerializeField] private float distance = 1f;
-    [SerializeField] private float noiseStrength = 1f;
-    [SerializeField] private float noiseWalk = 1f;
     [SerializeField] private MeshFilter meshFilter;
 
     private Vector3[] oldVertices;
@@ -40,7 +38,6 @@ public class Wave : MonoBehaviour
         float y = 0;
 
         y += Mathf.Sin((Time.time * speed + z) / distance) * amplitude;
-        y += Mathf.PerlinNoise(x + noiseWalk, z + Mathf.Sin(Time.time * 0.1f)) * noiseStrength;
         return y;
     }
 }
