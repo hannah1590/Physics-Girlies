@@ -10,8 +10,8 @@ public class Wave : MonoBehaviour
     [SerializeField] private float distance = 1f;
     [SerializeField] private MeshFilter meshFilter;
 
-    private Vector3[] oldVertices;
-    public Vector3[] newVertices;
+    [SerializeField] private Vector3[] oldVertices;
+    private Vector3[] newVertices;
 
     private void Awake()
     {
