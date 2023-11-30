@@ -11,19 +11,19 @@ public class Wave : MonoBehaviour
     [SerializeField] private MeshFilter meshFilter;
 
     private Vector3[] oldVertices;
-    private Vector3[] newVertices;
+    public Vector3[] newVertices;
 
     private void Awake()
     {
         oldVertices = meshFilter.mesh.vertices;
+
     }
 
     private void Update()
     {
         newVertices = new Vector3[oldVertices.Length];
-
         for (int i = 0; i < oldVertices.Length; i++)
-        {
+        {   
             Vector3 vertice = oldVertices[i];
             vertice = transform.TransformPoint(vertice);
             vertice.y += getYPos(vertice.x, vertice.z);
