@@ -193,12 +193,18 @@ public static class CollisionDetection
     {
         CollisionChecks++;
         CollisionInfo info = GetCollisionInfo(c1, c2);
+        if (c1.shape != Shape.OBB || c2.shape != Shape.OBB)
+        {
+            VectorDeltas delPos = ResolvePosition(info);
+            VectorDeltas delVel = ResolveVelocity(info);
 
-        VectorDeltas delPos = ResolvePosition(info);
-        VectorDeltas delVel = ResolveVelocity(info);
+            delPos.ApplyToPosition(c1, c2);
+            delVel.ApplyToVelocity(c1, c2);
+        }
+        else
+        {
 
-        delPos.ApplyToPosition(c1, c2);
-        delVel.ApplyToVelocity(c1, c2);
+        }
     }
 
     public static VectorDeltas ResolvePosition(CollisionInfo info)
