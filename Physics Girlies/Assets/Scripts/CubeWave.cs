@@ -4,6 +4,8 @@ using System.Diagnostics.Contracts;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System;
 
 public class CubeWave : MonoBehaviour
 {
@@ -15,6 +17,11 @@ public class CubeWave : MonoBehaviour
 
     private Vector3[] oldVertices;
     private Vector3[] newVertices;
+
+    [SerializeField] private TextMeshProUGUI ampText;
+    [SerializeField] private TextMeshProUGUI speedText;
+    [SerializeField] private TextMeshProUGUI distText;
+    [SerializeField] private TextMeshProUGUI dirText;
 
     private void Awake()
     {
@@ -28,6 +35,7 @@ public class CubeWave : MonoBehaviour
         
         for (int i = 0; i < oldVertices.Length; i++)
         {
+            // only makes the wave on the upper half of the shape
             if (bounds.max.y / 2 <= oldVertices[i].y)
             {
                 Vector3 vertice = oldVertices[i];
@@ -44,11 +52,38 @@ public class CubeWave : MonoBehaviour
         GetComponent<MeshFilter>().mesh.vertices = newVertices;
     }
     
+    // gets new y position
     private float getYPos(float x, float z)
     {
         float y = 0;
 
-        y += Mathf.Sin((Time.time * speed + z) / distance) * amplitude;
+        y += Mathf.Sin((Time.time * speed + x) / distance) * amplitude;
         return y;
+    }
+
+    // changes values based on the UI scrollbars
+    public void changeAmplitude(float n)
+    {
+        amplitude = n;
+        ampText.text = String.Format("{0:0.00}", n);
+    }
+
+    public void changeDistance(float n)
+    {
+        distance = n;
+        distText.text = String.Format("{0:0.00}", n);
+    }
+
+    public void changeSpeed(float n)
+    {
+        speed = n;
+        speedText.text = String.Format("{0:0.00}", n);
+    }
+
+    public void changeDirection(float n)
+    {
+        Quaternion target = Quaternion.Euler(0, n, 0);
+        transform.rotation = target;
+        dirText.text = String.Format("{0:0}", n);
     }
 }
