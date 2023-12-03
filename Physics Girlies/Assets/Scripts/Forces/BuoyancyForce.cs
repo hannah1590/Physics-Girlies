@@ -20,7 +20,7 @@ public class BuoyancyForce : ForceGenerator3D
     }
     public override void UpdateForce(Particle3D particle)
     {
-        if(false)//if it collides with the water
+        if(waterHeight > 0)//if it collides with the water
         {
             //liquid density is the density of the water
             //water height is how much the object is in the water
