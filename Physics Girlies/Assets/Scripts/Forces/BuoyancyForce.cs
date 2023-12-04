@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class BuoyancyForce : ForceGenerator3D
 {
-    [SerializeField] Wave ocean;
+    [SerializeField] CubeWave ocean;
 
     Vector3 centerBuoyancy;
     float maxDepth;
-    float volume;
+    float volume = 1;
     float waterHeight;
-    float liquidDensity;
+    float liquidDensity = 1000;
     private float buoyant = 0;
     private float drag;
 
@@ -27,7 +27,7 @@ public class BuoyancyForce : ForceGenerator3D
 
             Vector3 force = waterHeight * liquidDensity * -particle.gravity;
             particle.AddForce(force);
-            particle.velocity.y += force.magnitude;
+            //particle.velocity.y += force.magnitude;
         }
     }
 }
