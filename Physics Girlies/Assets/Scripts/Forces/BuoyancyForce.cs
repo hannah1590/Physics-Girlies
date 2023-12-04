@@ -12,7 +12,7 @@ public class BuoyancyForce : ForceGenerator3D
     float waterHeight;
     float liquidDensity = 1000;
     private float buoyant = 0;
-    private float drag;
+    public float drag = 0.47f;
 
     public override void UpdateForce(Particle2D particle)
     {
@@ -20,26 +20,17 @@ public class BuoyancyForce : ForceGenerator3D
     }
     public override void UpdateForce(Particle3D particle)
     {
-        getWaterHeight(particle);
-        if (waterHeight > 0)//if it collides with the water
+        float radius = particle.GetComponent<Sphere>().Radius; // radius of sphere
+        float area = Mathf.PI * Mathf.Pow(radius, 2); // area of sphere
+        waterHeight = ocean.Height - transform.position.y; // height of ocean minus current sphere pos
+
+        if (waterHeight > 0.0f)
         {
-            //liquid density is the density of the water
-            //water height is how much the object is in the water
-
-            // volume of sphere:  V = (1/3)πh2(3R - h) where h is height of current spherical section and r is new radius
-            Vector3 force = ((0.333f) * Mathf.PI * waterHeight * 2 * (3 * waterHeight - waterHeight)) * liquidDensity * -particle.gravity;//waterHeight * liquidDensity * -particle.gravity;
+            volume = Mathf.PI * Mathf.Pow(radius, 3) * (4.0f / 3.0f); // volume of sphere
+            float submergedVolume = Mathf.PI * Mathf.Pow(waterHeight, 2) * (radius - waterHeight / 3.0f); // submerged volume of sphere
+            Vector3 force = (submergedVolume / volume) * particle.gravity;
+            force -= drag * 0.5f * area * Vector3.up; // buoyancy force minus drag force
             particle.AddForce(force);
-            //particle.velocity.y += force.magnitude;
         }
-        
-    }
-
-    private void getWaterHeight(Particle3D particle)
-    {
-        // have no idea if this is right or not; also only did it for sphere
-        Vector3 s2ToS1 = particle.transform.position - ocean.Center;
-        float dist = s2ToS1.magnitude;
-        float sumOfRadii = (particle.GetComponent<Sphere>().Radius + ocean.Height / 2);
-        waterHeight = sumOfRadii - dist;
     }
 }
