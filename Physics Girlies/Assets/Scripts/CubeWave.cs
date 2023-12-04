@@ -23,6 +23,10 @@ public class CubeWave : MonoBehaviour
     [SerializeField] private TextMeshProUGUI distText;
     [SerializeField] private TextMeshProUGUI dirText;
 
+    public float Height => transform.localScale.y;
+    public Vector3 Center => transform.position;
+
+
     private void Awake()
     {
         oldVertices = meshFilter.mesh.vertices;
