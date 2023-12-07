@@ -693,6 +693,10 @@ PrefabInstance:
       propertyPath: gravity.y
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 848751936027924842, guid: 37a8b2dd37c71524f8975d911f970ecd, type: 3}
+      propertyPath: inverseMass
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4826421146335647363, guid: 37a8b2dd37c71524f8975d911f970ecd, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -711,7 +715,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4826421146335647363, guid: 37a8b2dd37c71524f8975d911f970ecd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: 4.47
       objectReference: {fileID: 0}
     - target: {fileID: 4826421146335647363, guid: 37a8b2dd37c71524f8975d911f970ecd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1739,7 +1743,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ocean: {fileID: 1380175571}
-  drag: 0.47
+  liquidDensity: 1000
+  drag: 0.1
 --- !u!1 &690422850
 GameObject:
   m_ObjectHideFlags: 0

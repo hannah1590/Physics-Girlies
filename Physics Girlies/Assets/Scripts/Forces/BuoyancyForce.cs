@@ -10,27 +10,63 @@ public class BuoyancyForce : ForceGenerator3D
     float maxDepth;
     float volume = 1; // current volume submerged
     float waterHeight;
-    float liquidDensity = 1000;
+    public float liquidDensity = 1000;
     private float buoyant = 0;
-    public float drag = 0.47f;
+    public float drag = 0.47f; // drag of water
+
+    private Vector3[] vertices;
+    private Bounds bounds;
+
+    private float halfLength;
 
     public override void UpdateForce(Particle2D particle)
     {
 
     }
+
     public override void UpdateForce(Particle3D particle)
     {
-        float radius = particle.GetComponent<Sphere>().Radius; // radius of sphere
-        float area = Mathf.PI * Mathf.Pow(radius, 2); // area of sphere
-        waterHeight = ocean.Height - transform.position.y; // height of ocean minus current sphere pos
+        // verticies and bounds of object
+        vertices = particle.gameObject.GetComponent<MeshFilter>().mesh.vertices;
+        bounds = particle.gameObject.GetComponent<MeshFilter>().mesh.bounds;
 
-        if (waterHeight > 0.0f)
+        halfLength = bounds.size.y / 2;
+
+        volume = Mathf.PI * Mathf.Pow(particle.GetComponent<Sphere>().Radius, 3) * (4.0f / 3.0f); // volume of sphere ; need to fix for different volumnes
+        if(particle.inverseMass == 0) // multiply volume by mass to get density
         {
-            volume = Mathf.PI * Mathf.Pow(radius, 3) * (4.0f / 3.0f); // volume of sphere
-            float submergedVolume = Mathf.PI * Mathf.Pow(waterHeight, 2) * (radius - waterHeight / 3.0f); // submerged volume of sphere
-            Vector3 force = (submergedVolume / volume) * particle.gravity;
-            force -= drag * 0.5f * area * Vector3.up; // buoyancy force minus drag force
-            particle.AddForce(force);
+            volume *= particle.inverseMass; 
         }
+        else
+        {
+            volume *= (1 / particle.inverseMass);
+        }
+        float forceMagnitude = liquidDensity * Mathf.Abs(particle.gravity.y) * volume; // archimedes force
+        Vector3 localForce = new Vector3(0, forceMagnitude, 0) / vertices.Length;
+
+        // NEED TO FIX it needs to act on each vertex separately so that things will rotate around if they are uneven lengths, haven't figured it out yet though
+        //foreach (Vector3 vertex in vertices)
+        //{
+        // Vector3 worldVertex = transform.TransformPoint(vertex);
+        Vector3 center = particle.GetComponent<Sphere>().Center;
+            
+            if(center.y - halfLength < ocean.Height) // if in the ocean
+            {
+                float k = (ocean.Height  - center.y) / (2 * halfLength) + 0.5f; // adjustment of drag based on depth in water
+                
+                if (k > 1)
+                {
+                    k = 1f;
+                }
+                else if (k < 0)
+                {
+                    k = 0f;
+                }
+                
+                Vector3 localDrag = -particle.velocity * drag * particle.inverseMass;
+                Vector3 force = localDrag + Mathf.Sqrt(k) * localForce;
+                particle.AddForce(force);
+            }
+        //}
     }
 }

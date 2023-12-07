@@ -23,7 +23,7 @@ public class CubeWave : MonoBehaviour
     [SerializeField] private TextMeshProUGUI distText;
     [SerializeField] private TextMeshProUGUI dirText;
 
-    public float Height => transform.localScale.y;
+    public float Height => (transform.localScale.y / 2);
     public Vector3 Center => transform.position;
 
 
