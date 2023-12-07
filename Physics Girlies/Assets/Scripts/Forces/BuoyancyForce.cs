@@ -8,7 +8,7 @@ public class BuoyancyForce : ForceGenerator3D
 
     Vector3 centerBuoyancy;
     float maxDepth;
-    float volume = 1; // current volume submerged
+    float volume; // current volume submerged
     float waterHeight;
     public float liquidDensity = 1000;
     private float buoyant = 0;
