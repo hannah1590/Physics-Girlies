@@ -691,11 +691,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 848751936027924842, guid: 37a8b2dd37c71524f8975d911f970ecd, type: 3}
       propertyPath: gravity.y
-      value: -1
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 848751936027924842, guid: 37a8b2dd37c71524f8975d911f970ecd, type: 3}
       propertyPath: inverseMass
-      value: 5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4826421146335647363, guid: 37a8b2dd37c71524f8975d911f970ecd, type: 3}
       propertyPath: m_LocalScale.x
@@ -715,7 +715,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4826421146335647363, guid: 37a8b2dd37c71524f8975d911f970ecd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.8
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: 4826421146335647363, guid: 37a8b2dd37c71524f8975d911f970ecd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -918,8 +918,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 303050209}
   m_HandleRect: {fileID: 303050208}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1743,7 +1743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ocean: {fileID: 1380175571}
-  liquidDensity: 1000
+  liquidDensity: 2000
   drag: 0.47
 --- !u!1 &690422850
 GameObject:
@@ -2947,7 +2947,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 98669503}
   m_Direction: 2
   m_Value: 0.99999964
-  m_Size: 0.689241
+  m_Size: 0.6892408
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3235,6 +3235,7 @@ MonoBehaviour:
   amplitude: 0.25
   distance: 1
   meshFilter: {fileID: 1361654008}
+  worldVertices: []
   ampText: {fileID: 0}
   speedText: {fileID: 0}
   distText: {fileID: 0}
@@ -3362,6 +3363,7 @@ MonoBehaviour:
   amplitude: 0.25
   distance: 1
   meshFilter: {fileID: 1380175574}
+  worldVertices: []
   ampText: {fileID: 1342499439}
   speedText: {fileID: 294922576}
   distText: {fileID: 951679181}
@@ -4446,6 +4448,7 @@ MonoBehaviour:
   amplitude: 0.25
   distance: 1
   meshFilter: {fileID: 2109918884}
+  worldVertices: []
   ampText: {fileID: 0}
   speedText: {fileID: 0}
   distText: {fileID: 0}

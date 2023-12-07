@@ -18,6 +18,8 @@ public class CubeWave : MonoBehaviour
     private Vector3[] oldVertices;
     private Vector3[] newVertices;
 
+    public Vector3[] worldVertices;
+
     [SerializeField] private TextMeshProUGUI ampText;
     [SerializeField] private TextMeshProUGUI speedText;
     [SerializeField] private TextMeshProUGUI distText;
@@ -31,6 +33,7 @@ public class CubeWave : MonoBehaviour
     {
         oldVertices = meshFilter.mesh.vertices;
         bounds = meshFilter.mesh.bounds;
+        worldVertices = new Vector3[oldVertices.Length];
     }
 
     private void Update()
@@ -54,6 +57,12 @@ public class CubeWave : MonoBehaviour
         }
 
         GetComponent<MeshFilter>().mesh.vertices = newVertices;
+        int it = 0;
+        foreach (var v in newVertices)
+        {
+            worldVertices[it] = transform.TransformPoint(v);
+            it++;
+        }
     }
     
     // gets new y position
