@@ -31,7 +31,7 @@ public class BuoyancyForce : ForceGenerator3D
         vertices = particle.gameObject.GetComponent<MeshFilter>().mesh.vertices;
         bounds = particle.gameObject.GetComponent<MeshFilter>().mesh.bounds;
 
-        halfLength = bounds.size.y / 2;
+        halfLength = transform.localScale.y / 2;
 
         volume = Mathf.PI * Mathf.Pow(particle.GetComponent<Sphere>().Radius, 3) * (4.0f / 3.0f); // volume of sphere ; need to fix for different volumnes
         float mass;
@@ -53,8 +53,8 @@ public class BuoyancyForce : ForceGenerator3D
         {
             Vector3 worldVertex = transform.TransformPoint(vertex);
             //Vector3 center = particle.GetComponent<Sphere>().Center;
-            waterHeight = ocean.GetWaveHeightAtPosition(vertex.x, vertex.z);
-            //GetOceanHeight(vertex, particle);
+            //waterHeight = ocean.GetWaveHeightAtPosition(vertex.x, vertex.z);
+            GetOceanHeight(vertex, particle);
             if(worldVertex.y - halfLength < waterHeight) // if in the ocean
             {
                 float k = (waterHeight - worldVertex.y) / (2 * halfLength) + 0.5f; // adjustment of drag based on depth in water
@@ -73,7 +73,6 @@ public class BuoyancyForce : ForceGenerator3D
                 particle.AddForce(force / Mathf.Abs(particle.gravity.y));
             }
         }
-        Debug.Log(waterHeight);
     }
 
     private void GetOceanHeight(Vector3 particle, Particle3D p)
@@ -95,7 +94,7 @@ public class BuoyancyForce : ForceGenerator3D
                 {
                     minX = pos.x - v.x;
                     minZ = pos.z - v.z;
-                    waterHeight = v.y;// - p.GetComponent<Sphere>().Radius;
+                    waterHeight = v.y - p.gameObject.GetComponent<Sphere>().Radius;// + Mathf.Abs(ocean.transform.position.y);
                 }
             }
         }
