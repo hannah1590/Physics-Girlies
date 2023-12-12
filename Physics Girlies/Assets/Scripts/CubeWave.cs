@@ -36,7 +36,7 @@ public class CubeWave : MonoBehaviour
         worldVertices = new Vector3[oldVertices.Length];
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         newVertices = new Vector3[oldVertices.Length];
         
@@ -56,13 +56,17 @@ public class CubeWave : MonoBehaviour
             }
         }
 
+        worldVertices = newVertices;
+
         GetComponent<MeshFilter>().mesh.vertices = newVertices;
+        
         int it = 0;
         foreach (var v in newVertices)
         {
             worldVertices[it] = transform.TransformPoint(v);
             it++;
         }
+        
     }
     
     // gets new y position

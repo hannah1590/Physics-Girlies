@@ -1,11 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class BuoyancyForce : ForceGenerator3D
 {
-    [SerializeField] CubeWave ocean;
+    [SerializeField] SphereWave ocean;
 
     Vector3 centerBuoyancy;
     float maxDepth;
@@ -49,14 +49,15 @@ public class BuoyancyForce : ForceGenerator3D
         Vector3 localForce = new Vector3(0, forceMagnitude, 0) / vertices.Length;
 
         // NEED TO FIX it needs to act on each vertex separately so that things will rotate around if they are uneven lengths, haven't figured it out yet though
-        //foreach (Vector3 vertex in vertices)
-        //{
-         //Vector3 worldVertex = transform.TransformPoint(vertex);
-        Vector3 center = particle.GetComponent<Sphere>().Center;    
-        GetOceanHeight(particle);
-            if(center.y - halfLength < waterHeight) // if in the ocean
+        foreach (Vector3 vertex in vertices)
+        {
+            Vector3 worldVertex = transform.TransformPoint(vertex);
+            //Vector3 center = particle.GetComponent<Sphere>().Center;
+            waterHeight = ocean.GetWaveHeightAtPosition(vertex.x, vertex.z);
+            //GetOceanHeight(vertex, particle);
+            if(worldVertex.y - halfLength < waterHeight) // if in the ocean
             {
-                float k = (waterHeight - center.y) / (2 * halfLength) + 0.5f; // adjustment of drag based on depth in water
+                float k = (waterHeight - worldVertex.y) / (2 * halfLength) + 0.5f; // adjustment of drag based on depth in water
                 
                 if (k > 1)
                 {
@@ -69,27 +70,33 @@ public class BuoyancyForce : ForceGenerator3D
                 
                 Vector3 localDrag = -particle.velocity * drag * mass;
                 Vector3 force = localDrag + Mathf.Sqrt(k) * localForce;
-                particle.AddForce(force + particle.gravity);
+                particle.AddForce(force / Mathf.Abs(particle.gravity.y));
             }
-        //}
+        }
+        Debug.Log(waterHeight);
     }
 
-    private void GetOceanHeight(Particle3D particle)
+    private void GetOceanHeight(Vector3 particle, Particle3D p)
     {
-        Vector3[] vertices = ocean.worldVertices;
+        Vector3[] vertices = ocean.gameObject.GetComponent<MeshFilter>().mesh.vertices;
+        Matrix4x4 transformation = ocean.transform.worldToLocalMatrix;
+        Matrix4x4 t = ocean.transform.localToWorldMatrix;
         Bounds bounds = ocean.GetComponent<MeshFilter>().mesh.bounds;
-        Vector3 pos = particle.transform.position;
+        Vector3 pos = transformation.MultiplyPoint(particle);
 
         float minX = 100; // just using an absurd number
         float minZ = 100;
         foreach (Vector3 v in vertices)
         {
-            // finds the current height of the ocean according to the closest ocean vertex to the sphere
-            if (pos.x - v.x < minX && pos.z - v.z < minZ && ocean.Height / 2 <= v.y)
+            if (bounds.max.y / 2 <= v.y)
             {
-                minX = pos.x - v.x;
-                minZ = pos.z - v.z;
-                waterHeight = v.y;
+                // finds the current height of the ocean according to the closest ocean vertex to the sphere
+                if (pos.x - v.x < minX && pos.z - v.z < minZ && bounds.max.y / 2 <= v.y)
+                {
+                    minX = pos.x - v.x;
+                    minZ = pos.z - v.z;
+                    waterHeight = v.y;// - p.GetComponent<Sphere>().Radius;
+                }
             }
         }
     }
