@@ -52,7 +52,7 @@ public class BuoyancyForce : ForceGenerator3D
         //foreach (Vector3 vertex in vertices)
         //{
          //Vector3 worldVertex = transform.TransformPoint(vertex);
-        Vector3 center = particle.GetComponent<Sphere>().Center;
+        Vector3 center = particle.GetComponent<Sphere>().Center;    
         GetOceanHeight(particle);
             if(center.y - halfLength < waterHeight) // if in the ocean
             {
