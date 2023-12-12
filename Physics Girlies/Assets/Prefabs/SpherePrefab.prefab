@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 735215382199430325}
   - component: {fileID: 8830460045407456982}
   - component: {fileID: 848751936027924842}
+  - component: {fileID: 8777733315782243448}
   m_Layer: 0
   m_Name: SpherePrefab
   m_TagString: Untagged
@@ -30,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.5054693, y: 0.35040236, z: 0.2807868}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -97,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba86d5c3db6ff5948afc70ab5bbdf177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Radius: 0.5
+  Radius: 1
 --- !u!114 &848751936027924842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,5 +114,20 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   damping: 1
   acceleration: {x: 0, y: 0, z: 0}
-  gravity: {x: 0, y: -1, z: 0}
-  inverseMass: 1
+  gravity: {x: 0, y: -10, z: 0}
+  inverseMass: 0.01
+--- !u!114 &8777733315782243448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711694808197576933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e67fd83515f2a4341bbc0d2d802eace4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ocean: {fileID: 0}
+  liquidDensity: 400
+  drag: 0.47

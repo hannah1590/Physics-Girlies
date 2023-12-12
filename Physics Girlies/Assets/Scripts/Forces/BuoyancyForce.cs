@@ -49,15 +49,15 @@ public class BuoyancyForce : ForceGenerator3D
         Vector3 localForce = new Vector3(0, forceMagnitude, 0) / vertices.Length;
 
         // NEED TO FIX it needs to act on each vertex separately so that things will rotate around if they are uneven lengths, haven't figured it out yet though
-        foreach (Vector3 vertex in vertices)
-        {
-            Vector3 worldVertex = transform.TransformPoint(vertex);
-            //Vector3 center = particle.GetComponent<Sphere>().Center;
+        //foreach (Vector3 vertex in vertices)
+        //{
+            //Vector3 worldVertex = transform.TransformPoint(vertex);
+            Vector3 center = particle.GetComponent<Sphere>().Center;
             //waterHeight = ocean.GetWaveHeightAtPosition(vertex.x, vertex.z);
-            GetOceanHeight(vertex, particle);
-            if(worldVertex.y - halfLength < waterHeight) // if in the ocean
+            GetOceanHeight(center, particle);
+            if(center.y - halfLength < waterHeight) // if in the ocean
             {
-                float k = (waterHeight - worldVertex.y) / (2 * halfLength) + 0.5f; // adjustment of drag based on depth in water
+                float k = (waterHeight - center.y) / (2 * halfLength) + 0.5f; // adjustment of drag based on depth in water
                 
                 if (k > 1)
                 {
@@ -70,9 +70,9 @@ public class BuoyancyForce : ForceGenerator3D
                 
                 Vector3 localDrag = -particle.velocity * drag * mass;
                 Vector3 force = localDrag + Mathf.Sqrt(k) * localForce;
-                particle.AddForce(force / Mathf.Abs(particle.gravity.y));
+                particle.AddForce(force + particle.gravity);
             }
-        }
+        //}
     }
 
     private void GetOceanHeight(Vector3 particle, Particle3D p)
