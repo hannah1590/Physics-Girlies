@@ -853,7 +853,7 @@ GameObject:
   - component: {fileID: 224251799}
   - component: {fileID: 224251798}
   m_Layer: 0
-  m_Name: test
+  m_Name: SphereWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -875,6 +875,10 @@ MonoBehaviour:
   amplitude: 0.06
   waveLength: 1
   speed: 1
+  ampText: {fileID: 615254923}
+  speedText: {fileID: 991714698}
+  distText: {fileID: 432069996}
+  dirText: {fileID: 20710325}
 --- !u!23 &224251799
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -934,8 +938,8 @@ Transform:
   m_GameObject: {fileID: 224251797}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.7, y: -4.4, z: 23.4}
-  m_LocalScale: {x: 79.16255, y: 13.2342825, z: 52.70056}
+  m_LocalPosition: {x: 1, y: -7.3, z: 21.8}
+  m_LocalScale: {x: 79.16255, y: 18.264633, z: 61.812485}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1042,8 +1046,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1276602678}
-        m_TargetAssemblyTypeName: CubeWave, Assembly-CSharp
+      - m_Target: {fileID: 224251798}
+        m_TargetAssemblyTypeName: SphereWave, Assembly-CSharp
         m_MethodName: changeDirection
         m_Mode: 0
         m_Arguments:
@@ -1191,21 +1195,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 147446247}
+      - m_Target: {fileID: 1522206685}
         m_TargetAssemblyTypeName: CubeWave, Assembly-CSharp
-        m_MethodName: changeDistance
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1276602678}
-        m_TargetAssemblyTypeName: CubeWave, Assembly-CSharp
-        m_MethodName: changeDistance
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1640,7 +1632,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1578650575}
   m_HandleRect: {fileID: 1578650574}
   m_Direction: 2
-  m_Value: 1.0000014
+  m_Value: 1.0000011
   m_Size: 0.6892409
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2230,8 +2222,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1276602678}
-        m_TargetAssemblyTypeName: CubeWave, Assembly-CSharp
+      - m_Target: {fileID: 224251798}
+        m_TargetAssemblyTypeName: SphereWave, Assembly-CSharp
         m_MethodName: changeAmplitude
         m_Mode: 0
         m_Arguments:
@@ -2344,8 +2336,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1276602678}
-        m_TargetAssemblyTypeName: CubeWave, Assembly-CSharp
+      - m_Target: {fileID: 224251798}
+        m_TargetAssemblyTypeName: SphereWave, Assembly-CSharp
         m_MethodName: changeSpeed
         m_Mode: 0
         m_Arguments:
@@ -3356,7 +3348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e67fd83515f2a4341bbc0d2d802eace4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ocean: {fileID: 147446247}
+  ocean: {fileID: 0}
   liquidDensity: 2000
   drag: 0.47
 --- !u!1 &1512752115
@@ -3524,14 +3516,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 711694808197576933, guid: 37a8b2dd37c71524f8975d911f970ecd, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1522206692}
+      addedObject: {fileID: 1522206698}
   m_SourcePrefab: {fileID: 100100000, guid: 37a8b2dd37c71524f8975d911f970ecd, type: 3}
 --- !u!1 &1522206685 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 711694808197576933, guid: 37a8b2dd37c71524f8975d911f970ecd, type: 3}
   m_PrefabInstance: {fileID: 1522206684}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1522206692
+--- !u!114 &1522206698
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3540,14 +3532,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1522206685}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a58fc5b89973f548b1f759bb22ee29d, type: 3}
+  m_Script: {fileID: 11500000, guid: e67fd83515f2a4341bbc0d2d802eace4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  liquidDensity: 1000
-  gravityScale: 5
-  buoyancyCoefficient: 0.001
-  buoyancyDamping: 12
-  oceanWave: {fileID: 224251798}
+  ocean: {fileID: 224251798}
+  liquidDensity: 500
+  drag: 0.47
 --- !u!1 &1534466200
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SphereWave : MonoBehaviour
@@ -11,6 +14,11 @@ public class SphereWave : MonoBehaviour
 
     private Vector3[] originalVertices;
     private Mesh mesh;
+
+    [SerializeField] private TextMeshProUGUI ampText;
+    [SerializeField] private TextMeshProUGUI speedText;
+    [SerializeField] private TextMeshProUGUI distText;
+    [SerializeField] private TextMeshProUGUI dirText;
 
     void Start()
     {
@@ -67,4 +75,29 @@ public class SphereWave : MonoBehaviour
         return waveHeight;
     }
 
+    // changes values based on the UI scrollbars
+    public void changeAmplitude(float n)
+    {
+        amplitude = n;
+        ampText.text = String.Format("{0:0.00}", n);
+    }
+
+    public void changeDistance(float n)
+    {
+        waveLength = n;
+        distText.text = String.Format("{0:0.00}", n);
+    }
+
+    public void changeSpeed(float n)
+    {
+        speed = n;
+        speedText.text = String.Format("{0:0.00}", n);
+    }
+
+    public void changeDirection(float n)
+    {
+        Quaternion target = Quaternion.Euler(0, n, 0);
+        transform.rotation = target;
+        dirText.text = String.Format("{0:0}", n);
+    }
 }
