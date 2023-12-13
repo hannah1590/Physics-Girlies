@@ -1684,8 +1684,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1931678185}
-        m_TargetAssemblyTypeName: CubeWave, Assembly-CSharp
+      - m_Target: {fileID: 1931678189}
+        m_TargetAssemblyTypeName: SphereWave, Assembly-CSharp
         m_MethodName: changeSpeed
         m_Mode: 0
         m_Arguments:
@@ -1866,8 +1866,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1931678185}
-        m_TargetAssemblyTypeName: CubeWave, Assembly-CSharp
+      - m_Target: {fileID: 1931678189}
+        m_TargetAssemblyTypeName: SphereWave, Assembly-CSharp
         m_MethodName: changeAmplitude
         m_Mode: 0
         m_Arguments:
@@ -2138,8 +2138,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1931678185}
-        m_TargetAssemblyTypeName: CubeWave, Assembly-CSharp
+      - m_Target: {fileID: 1931678189}
+        m_TargetAssemblyTypeName: SphereWave, Assembly-CSharp
         m_MethodName: changeDirection
         m_Mode: 0
         m_Arguments:
@@ -2330,8 +2330,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1931678185}
-        m_TargetAssemblyTypeName: CubeWave, Assembly-CSharp
+      - m_Target: {fileID: 1931678189}
+        m_TargetAssemblyTypeName: SphereWave, Assembly-CSharp
         m_MethodName: changeDistance
         m_Mode: 0
         m_Arguments:
@@ -3130,7 +3130,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 98669504}
   m_HandleRect: {fileID: 98669503}
   m_Direction: 2
-  m_Value: 1.0000004
+  m_Value: 1
   m_Size: 0.6892409
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4541,7 +4541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e67fd83515f2a4341bbc0d2d802eace4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ocean: {fileID: 0}
+  ocean: {fileID: 1931678189}
   liquidDensity: 2000
   drag: 0.47
 --- !u!1 &1931678184
@@ -4663,9 +4663,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numWaves: 4
-  amplitude: 0.1
+  amplitude: 0.06
   waveLength: 1
   speed: 1
+  ampText: {fileID: 1342499439}
+  speedText: {fileID: 294922576}
+  distText: {fileID: 951679181}
+  dirText: {fileID: 2017501344}
 --- !u!1 &2017501342
 GameObject:
   m_ObjectHideFlags: 0
