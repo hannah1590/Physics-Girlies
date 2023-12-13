@@ -130,4 +130,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ocean: {fileID: 0}
   liquidDensity: 400
-  drag: 0.47
+  drag: 0.5

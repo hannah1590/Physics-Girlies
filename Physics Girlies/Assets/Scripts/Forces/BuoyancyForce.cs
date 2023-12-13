@@ -33,7 +33,7 @@ public class BuoyancyForce : ForceGenerator3D
 
         halfLength = transform.localScale.y / 2;
 
-        volume = Mathf.PI * Mathf.Pow(particle.GetComponent<Sphere>().Radius, 3) * (4.0f / 3.0f); // volume of sphere ; need to fix for different volumnes
+        volume = Mathf.PI * Mathf.Pow(particle.GetComponent<Sphere>().Radius, 3) * (4.0f / 3.0f); // volume of sphere
         float mass;
         if(particle.inverseMass == 0) // multiply volume by mass to get density
         {
@@ -48,31 +48,25 @@ public class BuoyancyForce : ForceGenerator3D
         float forceMagnitude = liquidDensity * Mathf.Abs(particle.gravity.y) * volume; // archimedes force
         Vector3 localForce = new Vector3(0, forceMagnitude, 0) / vertices.Length;
 
-        // NEED TO FIX it needs to act on each vertex separately so that things will rotate around if they are uneven lengths, haven't figured it out yet though
-        //foreach (Vector3 vertex in vertices)
-        //{
-            //Vector3 worldVertex = transform.TransformPoint(vertex);
-            Vector3 center = particle.GetComponent<Sphere>().Center;
-            //waterHeight = ocean.GetWaveHeightAtPosition(vertex.x, vertex.z);
-            GetOceanHeight(center, particle);
-            if(center.y - halfLength < waterHeight) // if in the ocean
+        Vector3 center = particle.GetComponent<Sphere>().Center;
+        GetOceanHeight(center, particle);
+        if(center.y - halfLength < waterHeight) // if in the ocean
+        {
+            float k = (waterHeight - center.y) / (2 * halfLength) + 0.5f; // adjustment of drag based on depth in water
+                
+            if (k > 1)
             {
-                float k = (waterHeight - center.y) / (2 * halfLength) + 0.5f; // adjustment of drag based on depth in water
-                
-                if (k > 1)
-                {
-                    k = 1f;
-                }
-                else if (k < 0)
-                {
-                    k = 0f;
-                }
-                
-                Vector3 localDrag = -particle.velocity * drag * mass;
-                Vector3 force = localDrag + Mathf.Sqrt(k) * localForce;
-                particle.AddForce(force + particle.gravity);
+                k = 1f;
             }
-        //}
+            else if (k < 0)
+            {
+                k = 0f;
+            }
+                
+            Vector3 localDrag = -particle.velocity * drag * mass;
+            Vector3 force = localDrag + Mathf.Sqrt(k) * localForce;
+            particle.AddForce(force + particle.gravity);
+        }
     }
 
     private void GetOceanHeight(Vector3 particle, Particle3D p)
@@ -94,7 +88,7 @@ public class BuoyancyForce : ForceGenerator3D
                 {
                     minX = pos.x - v.x;
                     minZ = pos.z - v.z;
-                    waterHeight = v.y - p.gameObject.GetComponent<Sphere>().Radius;// + Mathf.Abs(ocean.transform.position.y);
+                    waterHeight = v.y;
                 }
             }
         }
